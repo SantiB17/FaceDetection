@@ -1,7 +1,7 @@
 import tensorflow as tf
 import splitfolders
 from tensorflow.keras.optimizers import RMSprop
-from tensorflow.keras.preprocessing.image import  ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
 
 if os.path.isdir('data/train') is False :
@@ -15,7 +15,10 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(32, (3,3), activation='relu'),
     tf.keras.layers.MaxPool2D(2,2),
     tf.keras.layers.Conv2D(32, (3,3), activation='relu'),
-    tf.keras.layers.MaxPool2D(2,2)
+    tf.keras.layers.MaxPool2D(2,2),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(512, activation='relu'),
+    tf.keras.layers.Dense(1, activation='sigmoid')
 ])
 print(model.summary())
 
@@ -46,6 +49,6 @@ history = model.fit(
     epochs=10,
     verbose=1,
     validation_data=validation_generator,
-    validation_steps=8
+    validation_steps=2
 )
 
