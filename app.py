@@ -1,21 +1,11 @@
 import tensorflow as tf
-import random
-import shutil
-import glob
+import splitfolders
+from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.preprocessing.image import  ImageDataGenerator
 import os
 
-os.chdir('data/Santi')
-if os.path.isdir('train/santi') is False:
-    os.makedirs('train/santi')
-    os.makedirs('valid/santi')
-    os.makedirs('test/santi')
-
-    for c in random.sample(glob.glob('santi*'), 234):
-        shutil.move(c, 'train/santi')
-    for c in random.sample(glob.glob('santi*'), 29):
-        shutil.move(c, 'valid/santi')
-    for c in random.sample(glob.glob('santi*'), 29):
-        shutil.move(c, 'test/santi')
+if os.path.isdir('data/train') is False :
+    splitfolders.ratio('data', output='data')
 
 model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=(300,300,3)),
@@ -27,4 +17,35 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(32, (3,3), activation='relu'),
     tf.keras.layers.MaxPool2D(2,2)
 ])
+print(model.summary())
+
+model.compile(loss='binary_crossentropy',
+              optimizer=RMSprop(lr=0.001),
+              metrics=['accuracy'])
+
+train_datagen = ImageDataGenerator(rescale=1/255)
+validation_datagen = ImageDataGenerator(rescale=1/255)
+
+train_generator = train_datagen.flow_from_directory(
+    'data/train',
+    target_size=(300,300),
+    batch_size=30,
+    class_mode='binary'
+)
+
+validation_generator = validation_datagen.flow_from_directory(
+    'data/val',
+    target_size=(300,300),
+    batch_size=5,
+    class_mode='binary'
+)
+
+history = model.fit(
+    train_generator,
+    steps_per_epoch=8,
+    epochs=10,
+    verbose=1,
+    validation_data=validation_generator,
+    validation_steps=8
+)
 
