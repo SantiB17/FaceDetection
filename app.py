@@ -7,6 +7,23 @@ import os
 if os.path.isdir('data/train') is False :
     splitfolders.ratio('data', output='data')
 
+train_datagen = ImageDataGenerator(rescale=1/255)
+validation_datagen = ImageDataGenerator(rescale=1/255)
+
+train_generator = train_datagen.flow_from_directory(
+    'data/train',
+    target_size=(300,300),
+    batch_size=30,
+    class_mode='binary'
+)
+
+validation_generator = validation_datagen.flow_from_directory(
+    'data/val',
+    target_size=(300,300),
+    batch_size=5,
+    class_mode='binary'
+)
+
 model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=(300,300,3)),
     tf.keras.layers.MaxPool2D(2,2),
@@ -26,23 +43,6 @@ model.compile(loss='binary_crossentropy',
               optimizer=RMSprop(lr=0.001),
               metrics=['accuracy'])
 
-train_datagen = ImageDataGenerator(rescale=1/255)
-validation_datagen = ImageDataGenerator(rescale=1/255)
-
-train_generator = train_datagen.flow_from_directory(
-    'data/train',
-    target_size=(300,300),
-    batch_size=30,
-    class_mode='binary'
-)
-
-validation_generator = validation_datagen.flow_from_directory(
-    'data/val',
-    target_size=(300,300),
-    batch_size=5,
-    class_mode='binary'
-)
-
 history = model.fit(
     train_generator,
     steps_per_epoch=8,
@@ -51,4 +51,8 @@ history = model.fit(
     validation_data=validation_generator,
     validation_steps=2
 )
+
+model.save("my_keras_model.h5")
+
+
 
