@@ -1,5 +1,6 @@
 from tensorflow import keras
 from tensorflow.keras.optimizers import RMSprop
+from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import splitfolders
 import matplotlib.pyplot as plt
@@ -64,9 +65,19 @@ test_ds = keras.preprocessing.image_dataset_from_directory(
     image_size=(300,300)
 )
 
-classes = model.predict(test_ds, batch_size=5)
-print(classes[20])
-if classes[0] > 0.5:
-    print('this picture is santi')
-else:
-    print('this picture is not santi')
+path = 'data/test/Santi/00100lrPORTRAIT_00100_BURST20191231132249104_COVER.jpg'
+
+def predict_image(path):
+    img = image.load_img(path, target_size=(300,300))
+    x = image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+
+    pred = model.predict(x)
+    print(pred)
+
+predict_image(path)
+
+# if classes[0] > 0.5:
+#     print('this picture is santi')
+# else:
+#     print('this picture is not santi')
