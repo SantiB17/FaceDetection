@@ -2,6 +2,8 @@
   <dictionary name="perro">
     <words>
       <w>crossentropy</w>
+      <w>datagen</w>
+      <w>keras</w>
       <w>relu</w>
       <w>santi</w>
     </words>
