@@ -3,7 +3,6 @@ from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import splitfolders
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 
@@ -39,7 +38,7 @@ if os.path.isfile('my_keras_model.h5') is False:
         keras.layers.MaxPool2D(2,2),
         keras.layers.Flatten(),
         keras.layers.Dense(512, activation='relu'),
-        keras.layers.Dense(1, activation='sigmoid')
+        keras.layers.Dense(1, activation='softmax')
     ])
     print(model.summary())
 
@@ -57,13 +56,17 @@ if os.path.isfile('my_keras_model.h5') is False:
     )
 
     model.save("my_keras_model.h5")
+else:
+    model = keras.models.load_model("my_keras_model.h5")
 
-model = keras.models.load_model("my_keras_model.h5")
-
-test_ds = keras.preprocessing.image_dataset_from_directory(
-    'data/test',
-    image_size=(300,300)
-)
+test_datagen = ImageDataGenerator(rescale=1/255)
+test_generator = test_datagen.flow_from_directory(
+        'data/test',
+        target_size=(300,300),
+        batch_size=5,
+        class_mode='binary'
+    )
+loss = model.evaluate(test_generator, steps=5)
 
 path = 'data/test/Santi/00100lrPORTRAIT_00100_BURST20191231132249104_COVER.jpg'
 
@@ -71,13 +74,8 @@ def predict_image(path):
     img = image.load_img(path, target_size=(300,300))
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
-
     pred = model.predict(x)
-    print(pred)
+    y_class = pred.argmax(axis=-1)
+    print(y_class)
 
 predict_image(path)
-
-# if classes[0] > 0.5:
-#     print('this picture is santi')
-# else:
-#     print('this picture is not santi')
