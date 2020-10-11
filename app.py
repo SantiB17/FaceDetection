@@ -5,12 +5,13 @@ import splitfolders
 from functions import predict_image
 import os
 
+
 if os.path.isdir('data/train') is False :
     splitfolders.ratio('data', output='data')
 
 if os.path.isfile('my_keras_model.h5') is False:
-    train_datagen = ImageDataGenerator(rescale=1/255)
-    validation_datagen = ImageDataGenerator(rescale=1/255)
+    train_datagen = ImageDataGenerator(rescale=1./255)
+    validation_datagen = ImageDataGenerator(rescale=1./255)
 
     train_generator = train_datagen.flow_from_directory(
         'data/train',
@@ -37,7 +38,7 @@ if os.path.isfile('my_keras_model.h5') is False:
         keras.layers.MaxPool2D(2,2),
         keras.layers.Flatten(),
         keras.layers.Dense(512, activation='relu'),
-        keras.layers.Dense(1, activation='softmax')
+        keras.layers.Dense(1, activation='sigmoid')
     ])
     print(model.summary())
 
@@ -58,7 +59,7 @@ if os.path.isfile('my_keras_model.h5') is False:
 else:
     model = keras.models.load_model("my_keras_model.h5")
 
-test_datagen = ImageDataGenerator(rescale=1/255)
+test_datagen = ImageDataGenerator(rescale=1./255)
 test_generator = test_datagen.flow_from_directory(
         'data/test',
         target_size=(300,300),
@@ -68,5 +69,5 @@ test_generator = test_datagen.flow_from_directory(
 
 loss = model.evaluate(test_generator, steps=5)
 
-path = 'data/test/Santi/00100lrPORTRAIT_00100_BURST20191231132249104_COVER.jpg'
+path = 'data/test/Not Santi/Screenshot_20170223-222656.png'
 predict_image(path)
