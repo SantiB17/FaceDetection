@@ -1,9 +1,8 @@
 from tensorflow import keras
 from tensorflow.keras.optimizers import RMSprop
-from tensorflow.keras.preprocessing import image
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import splitfolders
-import numpy as np
+from functions import predict_image
 import os
 
 if os.path.isdir('data/train') is False :
@@ -66,16 +65,8 @@ test_generator = test_datagen.flow_from_directory(
         batch_size=5,
         class_mode='binary'
     )
+
 loss = model.evaluate(test_generator, steps=5)
 
 path = 'data/test/Santi/00100lrPORTRAIT_00100_BURST20191231132249104_COVER.jpg'
-
-def predict_image(path):
-    img = image.load_img(path, target_size=(300,300))
-    x = image.img_to_array(img)
-    x = np.expand_dims(x, axis=0)
-    pred = model.predict(x)
-    y_class = pred.argmax(axis=-1)
-    print(y_class)
-
 predict_image(path)
