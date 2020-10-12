@@ -10,7 +10,7 @@ def predict_image(path):
     x = np.expand_dims(x, axis=0)
     x = np.vstack([x])
     pred = model.predict(x)
-
+    print(pred)
     if pred[0] > 0.5:
         print('Santi')
     else:
