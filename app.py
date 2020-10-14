@@ -10,7 +10,16 @@ if os.path.isdir('data/train') is False :
     splitfolders.ratio('data', output='data')
 
 if os.path.isfile('my_keras_model.h5') is False:
-    train_datagen = ImageDataGenerator(rescale=1./255.)
+
+    train_datagen = ImageDataGenerator(
+        rescale=1./255.,
+        rotation_range=40,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        fill_mode='nearest')
     validation_datagen = ImageDataGenerator(rescale=1./255.)
 
     train_generator = train_datagen.flow_from_directory(
@@ -51,7 +60,7 @@ if os.path.isfile('my_keras_model.h5') is False:
     history = model.fit(
         train_generator,
         steps_per_epoch=8,
-        epochs=10,
+        epochs=15,
         verbose=1,
         validation_data=validation_generator,
         validation_steps=2
