@@ -11,7 +11,7 @@ def predict_image(path):
     x = np.vstack([x])
     pred = model.predict(x)
     print(pred)
-    if pred[0] > 0.5:
+    if pred[0] < 0.5:
         print('Santi')
     else:
         print('Not Santi')

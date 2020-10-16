@@ -37,15 +37,15 @@ if os.path.isfile('my_keras_model.h5') is False:
     )
 
     model = keras.models.Sequential([
-        keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=(300,300,3)),
+        keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(300,300,3)),
         keras.layers.MaxPool2D(2,2),
         keras.layers.Conv2D(32, (3,3), activation='relu'),
         keras.layers.MaxPool2D(2,2),
-        keras.layers.Conv2D(32, (3,3), activation='relu'),
+        keras.layers.Conv2D(64, (3,3), activation='relu'),
         keras.layers.MaxPool2D(2,2),
-        keras.layers.Conv2D(32, (3,3), activation='relu'),
+        keras.layers.Conv2D(64, (3,3), activation='relu'),
         keras.layers.MaxPool2D(2,2),
-        keras.layers.Conv2D(64, (2,2), activation='relu'),
+        keras.layers.Conv2D(128, (2,2), activation='relu'),
         keras.layers.MaxPool2D(2,2),
         keras.layers.Flatten(),
         keras.layers.Dense(512, activation='relu'),
@@ -80,5 +80,8 @@ test_generator = test_datagen.flow_from_directory(
 
 loss = model.evaluate(test_generator, steps=5)
 
-path = 'data/test/Santi/00100lrPORTRAIT_00100_BURST20191231132249104_COVER.jpg'
-predict_image(path)
+test_images = os.listdir('data/test/Santi')
+test_images = test_images[0:10]
+for img in test_images:
+    path = os.path.join('data/test/Santi', img)
+    predict_image(path)
