@@ -83,8 +83,10 @@ test_generator = test_datagen.flow_from_directory(
 
 loss = model.evaluate(test_generator, steps=5)
 
-test_images = os.listdir('data/test/Santi')
-test_images = test_images[0:10]
-for img in test_images:
-    path = os.path.join('data/test/Santi', img)
-    predict_image(path)
+path = 'playing_images/jokic.jpg'
+predict_image(path)
+# test_images = os.listdir('data/test/Santi')
+# test_images = test_images[0:10]
+# for img in test_images:
+#     path = os.path.join('data/test/Santi', img)
+#     predict_image(path)
