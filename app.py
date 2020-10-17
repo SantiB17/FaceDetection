@@ -56,14 +56,17 @@ if os.path.isfile('my_keras_model.h5') is False:
     model.compile(loss='binary_crossentropy',
                   optimizer=RMSprop(lr=0.001),
                   metrics=['accuracy'])
+    checkpoint_cb = keras.callbacks.ModelCheckpoint("my_keras_model.h5", save_best_only=True)
+    early_stopping_cb = keras.callbacks.EarlyStopping(patience=10, restore_best_weights=True)
 
     history = model.fit(
         train_generator,
         steps_per_epoch=8,
-        epochs=15,
+        epochs=30,
         verbose=1,
         validation_data=validation_generator,
-        validation_steps=2
+        validation_steps=2,
+        callbacks=[checkpoint_cb, early_stopping_cb]
     )
 
     model.save("my_keras_model.h5")
