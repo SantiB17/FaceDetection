@@ -1,8 +1,6 @@
 from tensorflow import keras
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.keras.applications.inception_v3 import InceptionV3
-from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2
 import splitfolders
 from functions import predict_image
 import os
@@ -11,7 +9,7 @@ import os
 if os.path.isdir('data/train') is False :
     splitfolders.ratio('data', output='data')
 
-if os.path.isfile('my_keras_model.h5') is False:
+if os.path.isfile('models/my_keras_model.h5') is False:
 
     train_datagen = ImageDataGenerator(
         rescale=1./255.,
@@ -71,9 +69,9 @@ if os.path.isfile('my_keras_model.h5') is False:
         callbacks=[checkpoint_cb, early_stopping_cb]
     )
 
-    model.save("my_keras_model.h5")
+    model.save("models/my_keras_model.h5")
 else:
-    model = keras.models.load_model("my_keras_model.h5")
+    model = keras.models.load_model("models/my_keras_model.h5")
 
 test_datagen = ImageDataGenerator(rescale=1./255.)
 test_generator = test_datagen.flow_from_directory(
