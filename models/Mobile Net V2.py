@@ -54,6 +54,9 @@ base_model = keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
 base_model.trainable = False
 base_model.summary()
 
+checkpoint_cb = keras.callbacks.ModelCheckpoint("mobile_net_v2.h5", save_best_only=True)
+early_stopping_cb = keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)
+
 preprocess_input = keras.applications.mobilenet_v2.preprocess_input
 global_average_layer = keras.layers.GlobalAveragePooling2D()
 pred_layer = keras.layers.Dense(1)
@@ -71,7 +74,8 @@ model.compile(optimizer=keras.optimizers.Adam(lr=0.0001),
               loss=keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-initial_epochs = 10
+initial_epochs = 20
 history = model.fit(train_generator,
                     epochs=initial_epochs,
-                    validation_data=validation_generator)
+                    validation_data=validation_generator,
+                    callbacks=[checkpoint_cb, early_stopping_cb])
