@@ -28,7 +28,7 @@ test_datagen = ImageDataGenerator()
 train_generator = train_datagen.flow_from_directory(
     'C:/Users/perro/PycharmProjects/cv_proj/data/train',
     target_size=IMG_SIZE,
-    batch_size=30,
+    batch_size=20,
     class_mode='binary'
 )
 
@@ -79,3 +79,5 @@ history = model.fit(train_generator,
                     epochs=initial_epochs,
                     validation_data=validation_generator,
                     callbacks=[checkpoint_cb, early_stopping_cb])
+
+model.evaluate(test_generator)

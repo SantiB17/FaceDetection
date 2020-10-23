@@ -23,7 +23,7 @@ if os.path.isfile('models/my_keras_model.h5') is False:
     train_generator = train_datagen.flow_from_directory(
         'C:/Users/perro/PycharmProjects/cv_proj/data/train',
         target_size=(300,300),
-        batch_size=30,
+        batch_size=20,
         class_mode='binary'
     )
 
@@ -63,7 +63,7 @@ if os.path.isfile('models/my_keras_model.h5') is False:
 
     history = model.fit(
         train_generator,
-        steps_per_epoch=8,
+        steps_per_epoch=10,
         epochs=30,
         verbose=1,
         validation_data=validation_generator,
