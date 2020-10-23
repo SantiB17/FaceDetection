@@ -63,7 +63,7 @@ pred_layer = keras.layers.Dense(1)
 
 inputs = tf.keras.Input(shape=(160, 160, 3))
 x = data_augmentation(inputs)
-x = preprocess_input(inputs)
+x = preprocess_input(x)
 x = base_model(x, training=False)
 x = global_average_layer(x)
 x = tf.keras.layers.Dropout(0.2)(x)
