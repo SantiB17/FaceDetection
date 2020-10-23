@@ -14,13 +14,13 @@ data_augmentation = tf.keras.Sequential([
 
 # Data preprocessing boilerplate code
 train_datagen = ImageDataGenerator(
-    # rotation_range=40,
-    # width_shift_range=0.2,
-    # height_shift_range=0.2,
-    # shear_range=0.2,
-    # zoom_range=0.2,
-    # horizontal_flip=True,
-    # fill_mode='nearest'
+    rotation_range=40,
+    width_shift_range=0.2,
+    height_shift_range=0.2,
+    shear_range=0.2,
+    zoom_range=0.2,
+    horizontal_flip=True,
+    fill_mode='nearest'
 )
 validation_datagen = ImageDataGenerator()
 test_datagen = ImageDataGenerator()
@@ -62,8 +62,8 @@ global_average_layer = keras.layers.GlobalAveragePooling2D()
 pred_layer = keras.layers.Dense(1)
 
 inputs = tf.keras.Input(shape=(160, 160, 3))
-x = data_augmentation(inputs)
-x = preprocess_input(x)
+# x = data_augmentation(inputs)
+x = preprocess_input(inputs)
 x = base_model(x, training=False)
 x = global_average_layer(x)
 x = tf.keras.layers.Dropout(0.2)(x)

@@ -35,15 +35,15 @@ if os.path.isfile('models/my_keras_model.h5') is False:
     )
 
     model = keras.models.Sequential([
-        keras.layers.Conv2D(16, (3,3), activation='relu', input_shape=(300, 300, 3)),
+        keras.layers.Conv2D(32, (3,3), activation='relu', input_shape=(300, 300, 3)),
         keras.layers.MaxPool2D(2, 2),
         keras.layers.Conv2D(32, (3,3), activation='relu'),
         keras.layers.MaxPool2D(2,2),
         keras.layers.Conv2D(64, (3,3), activation='relu'),
-        keras.layers.MaxPool2D(2,2),
-        keras.layers.Conv2D(64, (3,3), activation='relu'),
         keras.layers.MaxPool2D(2, 2),
         keras.layers.Conv2D(64, (3,3), activation='relu'),
+        keras.layers.MaxPool2D(2, 2),
+        keras.layers.Conv2D(64, (3, 3), activation='relu'),
         keras.layers.MaxPool2D(2,2),
         keras.layers.Conv2D(128, (2,2), activation='relu'),
         keras.layers.MaxPool2D(2, 2),
@@ -59,6 +59,7 @@ if os.path.isfile('models/my_keras_model.h5') is False:
                   optimizer=RMSprop(lr=0.001),
                   metrics=['accuracy'])
     checkpoint_cb = keras.callbacks.ModelCheckpoint("my_keras_model.h5", save_best_only=True)
+    early_stopping_cb = keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)
 
     history = model.fit(
         train_generator,
@@ -67,7 +68,7 @@ if os.path.isfile('models/my_keras_model.h5') is False:
         verbose=1,
         validation_data=validation_generator,
         validation_steps=2,
-        callbacks=[checkpoint_cb]
+        callbacks=[checkpoint_cb, early_stopping_cb]
     )
 
 else:

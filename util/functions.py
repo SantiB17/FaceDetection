@@ -46,3 +46,7 @@ def split_data(SOURCE, TRAIN, VAL, TEST, SPLIT_SIZE):
     copy_to(TEST, test_set, SOURCE)
 
 
+def evaluate_model(model, test):
+    return model.evaluate()
+
+
