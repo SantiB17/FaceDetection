@@ -6,9 +6,11 @@ import random
 import numpy as np
 
 
-def predict_image(path):
-    model = keras.models.load_model("models/mobile_net_v2.h5")
-    img = image.load_img(path, target_size=(300, 300))
+def predict_image(img_path, model_name):
+    models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/models'
+    model_path = os.path.join(models_dir, model_name)
+    model = keras.models.load_model(model_path)
+    img = image.load_img(img_path, target_size=(300, 300))
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     x = np.vstack([x])
@@ -46,7 +48,8 @@ def split_data(SOURCE, TRAIN, VAL, TEST, SPLIT_SIZE):
     copy_to(TEST, test_set, SOURCE)
 
 
-def evaluate_model(model, test):
-    return model.evaluate()
+def evaluate_model(model, test_set):
+    model = keras.models.load_model(model)
+    return model.evaluate(test_set)
 
 
