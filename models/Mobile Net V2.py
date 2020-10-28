@@ -70,14 +70,36 @@ x = tf.keras.layers.Dropout(0.2)(x)
 outputs = pred_layer(x)
 model = tf.keras.Model(inputs, outputs)
 
-model.compile(optimizer=keras.optimizers.Adam(lr=0.0001),
+base_learning_rate = 0.0001
+model.compile(optimizer=keras.optimizers.Adam(lr=base_learning_rate),
               loss=keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-initial_epochs = 20
+initial_epochs = 30
 history = model.fit(train_generator,
                     epochs=initial_epochs,
                     validation_data=validation_generator,
                     callbacks=[checkpoint_cb, early_stopping_cb])
 
 model.evaluate(test_generator)
+
+base_model.trainable = True
+
+# Fine tune from this layer onwards
+fine_tune_at = 100
+
+for layer in base_model.layers[:fine_tune_at]:
+    layer.trainable = False
+
+model.compile(loss=keras.losses.BinaryCrossentropy(from_logits=True),
+              optimizer=keras.optimizers.RMSprop(lr=base_learning_rate/10),
+              metrics=['accuracy'])
+
+fine_tune_epochs = 10
+total_epochs = initial_epochs + fine_tune_epochs
+
+history_fine = model.fit(train_generator,
+                         epochs=total_epochs,
+                         initial_epoch=history.epoch[-1],
+                         validation_data=validation_generator,
+                         callbacks=[checkpoint_cb, early_stopping_cb])
