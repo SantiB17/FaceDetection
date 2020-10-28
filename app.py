@@ -1,8 +1,9 @@
-from util.functions import predict_image, split_data
+from util.functions import predict_image, split_data, evaluate_model
 
-path = 'playing_images/jokic.jpg'
+path = 'playing_images/santi.jpg'
 predict_image(path,'mobile_net_v2.h5')
 
+evaluate_model('my_keras_model.h5')
 
 # source_path = 'C:/Users/perro/Downloads/Photos (1)'
 # train_path = 'data/train/Santi'

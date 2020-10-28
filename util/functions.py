@@ -1,5 +1,6 @@
 from tensorflow import keras
 from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
 import shutil
 import random
@@ -48,8 +49,19 @@ def split_data(SOURCE, TRAIN, VAL, TEST, SPLIT_SIZE):
     copy_to(TEST, test_set, SOURCE)
 
 
-def evaluate_model(model, test_set):
-    model = keras.models.load_model(model)
-    return model.evaluate(test_set)
+def evaluate_model(model_name):
+    test_datagen = ImageDataGenerator(rescale=1./255.)
+    test_generator = test_datagen.flow_from_directory(
+        'C:/Users/perro/PycharmProjects/cv_proj/data/test',
+        target_size=(300,300),
+        batch_size=5,
+        class_mode='binary'
+    )
+
+    models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/models'
+    model_path = os.path.join(models_dir, model_name)
+    model = keras.models.load_model(model_path)
+
+    print(model.evaluate(test_generator, steps=5))
 
 
