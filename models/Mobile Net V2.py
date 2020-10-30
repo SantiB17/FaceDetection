@@ -1,14 +1,8 @@
-import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 IMG_SIZE = (160,160)
-
-data_augmentation = tf.keras.Sequential([
-  tf.keras.layers.experimental.preprocessing.RandomFlip('horizontal'),
-  tf.keras.layers.experimental.preprocessing.RandomRotation(0.2),
-])
 
 # Data preprocessing boilerplate code
 train_datagen = ImageDataGenerator(
@@ -59,14 +53,13 @@ preprocess_input = keras.applications.mobilenet_v2.preprocess_input
 global_average_layer = keras.layers.GlobalAveragePooling2D()
 pred_layer = keras.layers.Dense(1)
 
-inputs = tf.keras.Input(shape=(160, 160, 3))
-# x = data_augmentation(inputs)
+inputs = keras.Input(shape=(160, 160, 3))
 x = preprocess_input(inputs)
 x = base_model(x, training=False)
 x = global_average_layer(x)
-x = tf.keras.layers.Dropout(0.2)(x)
+x = keras.layers.Dropout(0.2)(x)
 outputs = pred_layer(x)
-model = tf.keras.Model(inputs, outputs)
+model = keras.Model(inputs, outputs)
 
 base_learning_rate = 0.0001
 model.compile(optimizer=keras.optimizers.Adam(lr=base_learning_rate),
