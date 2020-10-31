@@ -1,9 +1,9 @@
-from util.functions import predict_image, split_data, evaluate_model
+from util.functions import predict_image, evaluate_model
 
-path = 'playing_images/santi.jpg'
-predict_image(path,'mobile_net_v2.h5')
+path = 'C:/Users/perro/OneDrive/Pictures/Camera Roll/WIN_20201030_16_08_10_Pro.jpg'
+predict_image(path,'xception.h5')
 
-evaluate_model('my_keras_model.h5')
+evaluate_model('xception.h5')
 
 # source_path = 'C:/Users/perro/Downloads/Photos (1)'
 # train_path = 'data/train/Santi'

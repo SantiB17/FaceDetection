@@ -28,9 +28,9 @@ validation_generator = validation_datagen.flow_from_directory(
     batch_size=10,
     class_mode='binary'
 )
-# Create the base model from the pre-trained model Xception
+# Create the base model from the pre-trained model Inception V3
 IMG_SHAPE = IMG_SIZE + (3,)
-base_model = keras.applications.Xception(
+base_model = keras.applications.InceptionV3(
     input_shape=IMG_SHAPE,
     include_top=False,
     weights='imagenet'
@@ -39,10 +39,10 @@ base_model = keras.applications.Xception(
 base_model.trainable = False
 base_model.summary()
 
-checkpoint_cb = keras.callbacks.ModelCheckpoint('xception.h5', save_best_only=True)
+checkpoint_cb = keras.callbacks.ModelCheckpoint('inception_v3.h5', save_best_only=True)
 early_stopping_cb = keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)
 
-preprocess_input = keras.applications.xception.preprocess_input
+preprocess_input = keras.applications.inception_v3.preprocess_input
 global_average_layer = keras.layers.GlobalAveragePooling2D()
 pred_layer = keras.layers.Dense(1)
 
@@ -64,26 +64,3 @@ history = model.fit(train_generator,
                     epochs=initial_epochs,
                     validation_data=validation_generator,
                     callbacks=[checkpoint_cb, early_stopping_cb])
-
-base_model.trainable = True
-
-# Fine tune from this layer onwards
-fine_tune_at = 100
-
-for layer in base_model.layers[:fine_tune_at]:
-    layer.trainable = False
-
-model.compile(loss=keras.losses.BinaryCrossentropy(from_logits=True),
-              optimizer=keras.optimizers.RMSprop(lr=base_learning_rate/10),
-              metrics=['accuracy'])
-
-fine_tune_epochs = 10
-total_epochs = initial_epochs + fine_tune_epochs
-
-history_fine = model.fit(train_generator,
-                         epochs=total_epochs,
-                         initial_epoch=history.epoch[-1],
-                         validation_data=validation_generator,
-                         callbacks=[checkpoint_cb, early_stopping_cb])
-
-
