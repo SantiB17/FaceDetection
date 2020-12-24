@@ -19,8 +19,10 @@ def predict_image(img_path, model_name):
     print(pred)
     if pred[0] > 0.5:
         print('Santi')
+        return 'Santi'
     else:
         print('Not Santi')
+        return 'Not Santi'
 
 
 def copy_to(DIR, LIST, SOURCE):
