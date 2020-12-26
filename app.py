@@ -1,16 +1,7 @@
 import os
-
-from tensorflow import keras
-from keras.applications.imagenet_utils import decode_predictions
-
-from util.functions import predict_image, evaluate_model
-from flask import Flask, request
+from util.functions import evaluate_model, predict_image, split_data
+from flask import Flask, request, render_template
 from werkzeug.utils import secure_filename
-
-# path = 'C:/Users/perro/OneDrive/Pictures/Camera Roll/WIN_20201030_16_08_10_Pro.jpg'
-# predict_image(path,'xception.h5')
-#
-# evaluate_model('xception.h5')
 
 app = Flask(__name__)
 
@@ -39,9 +30,9 @@ def upload():
 if __name__ == '__main__':
     app.run(debug=True)
 
-# source_path = 'C:/Users/perro/Downloads/Photos (1)'
-# train_path = 'data/train/Santi'
-# val_path = 'data/val/Santi'
-# test_path = 'data/test/Santi'
+# source_path = 'C:/Users/perro/PycharmProjects/web_scraping/kanye'
+# train_path = 'data/train/Kanye'
+# val_path = 'data/val/Kanye'
+# test_path = 'data/test/Kanye'
 #
 # split_data(source_path, train_path, val_path, test_path, 0.8)
