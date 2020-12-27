@@ -19,14 +19,14 @@ train_generator = train_datagen.flow_from_directory(
     'C:/Users/perro/PycharmProjects/cv_proj/data/train',
     target_size=IMG_SIZE,
     batch_size=20,
-    class_mode='binary'
+    class_mode='categorical'
 )
 
 validation_generator = validation_datagen.flow_from_directory(
     'C:/Users/perro/PycharmProjects/cv_proj/data/val',
     target_size=IMG_SIZE,
     batch_size=10,
-    class_mode='binary'
+    class_mode='categorical'
 )
 # Create the base model from the pre-trained model Xception
 IMG_SHAPE = IMG_SIZE + (3,)
@@ -56,7 +56,7 @@ model = keras.Model(inputs, outputs)
 
 base_learning_rate = 0.0001
 model.compile(optimizer=keras.optimizers.Adam(lr=base_learning_rate),
-              loss=keras.losses.BinaryCrossentropy(from_logits=True),
+              loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 initial_epochs = 30
@@ -73,7 +73,7 @@ fine_tune_at = 100
 for layer in base_model.layers[:fine_tune_at]:
     layer.trainable = False
 
-model.compile(loss=keras.losses.BinaryCrossentropy(from_logits=True),
+model.compile(loss='categorical_crossentropy',
               optimizer=keras.optimizers.RMSprop(lr=base_learning_rate/10),
               metrics=['accuracy'])
 
