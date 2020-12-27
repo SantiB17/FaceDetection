@@ -1,1 +1,1 @@
-Project to automate the process of sending images to people through facial detection. 
+Basic facial detection project. The project classifies the faces of myself, my friend Boris, and Kanye West.
