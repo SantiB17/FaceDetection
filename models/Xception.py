@@ -39,12 +39,12 @@ base_model = keras.applications.Xception(
 base_model.trainable = False
 base_model.summary()
 
-checkpoint_cb = keras.callbacks.ModelCheckpoint('xception.h5', save_best_only=True)
+checkpoint_cb = keras.callbacks.ModelCheckpoint('Xception.h5', save_best_only=True)
 early_stopping_cb = keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)
 
 preprocess_input = keras.applications.xception.preprocess_input
 global_average_layer = keras.layers.GlobalAveragePooling2D()
-pred_layer = keras.layers.Dense(1)
+pred_layer = keras.layers.Dense(3)
 
 inputs = keras.Input(shape=IMG_SHAPE)
 x = preprocess_input(inputs)
