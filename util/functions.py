@@ -17,10 +17,7 @@ def predict_image(img_path, model_name):
     x = np.vstack([x])
     pred = model.predict(x)
     print(pred)
-    # if pred[0] > 0.5:
-    #     return 'Santi'
-    # else:
-    #     return 'Not Santi'
+
 
 
 def copy_to(DIR, LIST, SOURCE):
