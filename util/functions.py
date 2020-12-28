@@ -6,18 +6,21 @@ import shutil
 import random
 import numpy as np
 
+labels = ["Kanye", "Not Santi", "Santi"]
 
 def predict_image(img_path, model_name):
     models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/models'
     model_path = os.path.join(models_dir, model_name)
     model = keras.models.load_model(model_path)
-    img = image.load_img(img_path, target_size=(300, 300))
+    img = image.load_img(img_path, target_size=(299, 299))
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     x = np.vstack([x])
     pred = model.predict(x)
-    print(pred)
-
+    pred_class = pred.argmax(axis=-1)
+    predicted_label = labels[int(pred_class)]
+    print(pred, pred_class)
+    return predicted_label
 
 
 def copy_to(DIR, LIST, SOURCE):
