@@ -44,7 +44,7 @@ early_stopping_cb = keras.callbacks.EarlyStopping(patience=5, restore_best_weigh
 
 preprocess_input = keras.applications.xception.preprocess_input
 global_average_layer = keras.layers.GlobalAveragePooling2D()
-pred_layer = keras.layers.Dense(3)
+pred_layer = keras.layers.Dense(3, activation='softmax')
 
 inputs = keras.Input(shape=IMG_SHAPE)
 x = preprocess_input(inputs)

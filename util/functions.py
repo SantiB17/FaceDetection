@@ -6,8 +6,6 @@ import shutil
 import random
 import numpy as np
 
-
-
 def predict_image(img_path, model_name):
     models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/models'
     model_path = os.path.join(models_dir, model_name)
@@ -52,6 +50,7 @@ def split_data(SOURCE, TRAIN, VAL, TEST, SPLIT_SIZE):
     copy_to(VAL, val_set, SOURCE)
     copy_to(TEST, test_set, SOURCE)
 
+    print('Data successfully split!')
 
 def evaluate_model(model_name):
     test_datagen = ImageDataGenerator(rescale=1./255.)
@@ -62,7 +61,7 @@ def evaluate_model(model_name):
         class_mode='binary'
     )
 
-    models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/models'
+    models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/cv_models'
     model_path = os.path.join(models_dir, model_name)
     model = keras.models.load_model(model_path)
 

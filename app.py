@@ -11,10 +11,10 @@ def upload():
     # Get the file from post request
     pic = request.files['pic']
 
-    # Save the file to ./uploads
+    # Save the file to ./frontend_uploads
     basepath = os.path.dirname(__file__)
     file_path = os.path.join(
-    basepath, 'uploads', secure_filename(pic.filename))
+    basepath, 'frontend_uploads', secure_filename(pic.filename))
     pic.save(file_path)
 
     # Make prediction
@@ -22,13 +22,12 @@ def upload():
 
     return preds, 200
 
-
 if __name__ == '__main__':
     app.run(debug=True)
 
-# source_path = 'C:/Users/perro/PycharmProjects/web_scraping/kanye'
-# train_path = 'data/train/Kanye'
-# val_path = 'data/val/Kanye'
-# test_path = 'data/test/Kanye'
+# source_path = 'C:/Users/perro/Downloads/Photos (3)'
+# train_path = 'data/train/Santi'
+# val_path = 'data/val/Santi'
+# test_path = 'data/test/Santi'
 #
 # split_data(source_path, train_path, val_path, test_path, 0.8)

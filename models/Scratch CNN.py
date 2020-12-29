@@ -72,7 +72,7 @@ if os.path.isfile('models/my_keras_model.h5') is False:
     )
 
 else:
-    model = keras.models.load_model("C:/Users/perro/PycharmProjects/cv_proj/models/my_keras_model.h5")
+    model = keras.models.load_model("C:/Users/perro/PycharmProjects/cv_proj/cv_models/my_keras_model.h5")
 
 test_datagen = ImageDataGenerator(rescale=1./255.)
 test_generator = test_datagen.flow_from_directory(
