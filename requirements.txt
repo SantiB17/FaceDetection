@@ -1,0 +1,8 @@
+bs4
+Flask
+Numpy
+requests
+splitfolders
+TensorFlow
+uwsgi
+Werkzeug
