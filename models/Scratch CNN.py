@@ -1,11 +1,8 @@
 from tensorflow import keras
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-import splitfolders
-import os
 
-if os.path.isdir('C:/Users/perro/PycharmProjects/cv_proj/data/train') is False :
-    splitfolders.ratio('data', output='data')
+import os
 
 if os.path.isfile('models/my_keras_model.h5') is False:
 
