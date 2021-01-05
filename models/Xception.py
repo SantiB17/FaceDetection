@@ -13,6 +13,7 @@ train_datagen = ImageDataGenerator(
     horizontal_flip=True,
     fill_mode='nearest'
 )
+
 validation_datagen = ImageDataGenerator()
 
 train_generator = train_datagen.flow_from_directory(

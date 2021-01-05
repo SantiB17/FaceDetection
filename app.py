@@ -18,16 +18,16 @@ def upload():
     pic.save(file_path)
 
     # Make prediction
-    preds = predict_image(file_path, 'xception.h5')
+    preds = predict_image(file_path, 'mobile_net_v2.h5')
 
     return preds, 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
 
-# source_path = 'C:/Users/perro/Downloads/Photos (3)'
-# train_path = 'data/train/Santi'
-# val_path = 'data/val/Santi'
-# test_path = 'data/test/Santi'
+# source_path = 'C:/Users/perro/Downloads/Not_Santi_backup/Not Santi'
+# train_path = 'data/train/Not Santi'
+# val_path = 'data/val/Not Santi'
+# test_path = 'data/test/Not Santi'
 #
 # split_data(source_path, train_path, val_path, test_path, 0.8)
