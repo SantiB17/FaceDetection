@@ -1,8 +1,7 @@
 from tensorflow import keras
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-
-IMG_SIZE = (160,160)
+IMG_SIZE = (160, 160)
 
 # Data preprocessing boilerplate code
 train_datagen = ImageDataGenerator(
@@ -14,46 +13,41 @@ train_datagen = ImageDataGenerator(
     horizontal_flip=True,
     fill_mode='nearest'
 )
+
 validation_datagen = ImageDataGenerator()
-test_datagen = ImageDataGenerator()
 
 train_generator = train_datagen.flow_from_directory(
     'C:/Users/perro/PycharmProjects/cv_proj/data/train',
     target_size=IMG_SIZE,
     batch_size=20,
-    class_mode='binary'
+    class_mode='categorical'
 )
 
 validation_generator = validation_datagen.flow_from_directory(
     'C:/Users/perro/PycharmProjects/cv_proj/data/val',
     target_size=IMG_SIZE,
     batch_size=10,
-    class_mode='binary'
+    class_mode='categorical'
 )
-test_generator = test_datagen.flow_from_directory(
-    'C:/Users/perro/PycharmProjects/cv_proj/data/test',
-    target_size=IMG_SIZE,
-    batch_size=5,
-    class_mode='binary'
-    )
-
-# Create the base model from the pre-trained model MobileNet V2
+# Create the base model from the pre-trained model Mobile Net V2
 IMG_SHAPE = IMG_SIZE + (3,)
-base_model = keras.applications.MobileNetV2(input_shape=IMG_SHAPE,
-                                            include_top=False,
-                                            weights='imagenet')
+base_model = keras.applications.MobileNetV2(
+    input_shape=IMG_SHAPE,
+    include_top=False,
+    weights='imagenet'
+)
 
 base_model.trainable = False
 base_model.summary()
 
-checkpoint_cb = keras.callbacks.ModelCheckpoint("mobile_net_v2.h5", save_best_only=True)
+checkpoint_cb = keras.callbacks.ModelCheckpoint('mobile_net_v2.h5', save_best_only=True)
 early_stopping_cb = keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)
 
 preprocess_input = keras.applications.mobilenet_v2.preprocess_input
 global_average_layer = keras.layers.GlobalAveragePooling2D()
-pred_layer = keras.layers.Dense(1)
+pred_layer = keras.layers.Dense(3, activation='softmax')
 
-inputs = keras.Input(shape=(160, 160, 3))
+inputs = keras.Input(shape=IMG_SHAPE)
 x = preprocess_input(inputs)
 x = base_model(x, training=False)
 x = global_average_layer(x)
@@ -63,7 +57,7 @@ model = keras.Model(inputs, outputs)
 
 base_learning_rate = 0.0001
 model.compile(optimizer=keras.optimizers.Adam(lr=base_learning_rate),
-              loss=keras.losses.BinaryCrossentropy(from_logits=True),
+              loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 initial_epochs = 30
@@ -71,8 +65,6 @@ history = model.fit(train_generator,
                     epochs=initial_epochs,
                     validation_data=validation_generator,
                     callbacks=[checkpoint_cb, early_stopping_cb])
-
-model.evaluate(test_generator)
 
 base_model.trainable = True
 
@@ -82,7 +74,7 @@ fine_tune_at = 100
 for layer in base_model.layers[:fine_tune_at]:
     layer.trainable = False
 
-model.compile(loss=keras.losses.BinaryCrossentropy(from_logits=True),
+model.compile(loss='categorical_crossentropy',
               optimizer=keras.optimizers.RMSprop(lr=base_learning_rate/10),
               metrics=['accuracy'])
 
