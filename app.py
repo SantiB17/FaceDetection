@@ -22,8 +22,8 @@ def upload():
 
     return preds, 200
 
-# if __name__ == '__main__':
-#     app.run()
+if __name__ == '__main__':
+    app.run()
 
 # source_path = 'C:/Users/perro/Downloads/Not_Santi_backup/Not Santi'
 # train_path = 'data/train/Not Santi'
