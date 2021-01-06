@@ -13,7 +13,7 @@ def predict_image(img_path, model_name):
     model_path = os.path.join(models_dir, model_name)
     model = keras.models.load_model(model_path)
 
-    img = image.load_img(img_path, target_size=(299, 299))
+    img = image.load_img(img_path, target_size=(160, 160))
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     x = np.vstack([x])
