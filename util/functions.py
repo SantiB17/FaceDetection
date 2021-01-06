@@ -8,7 +8,8 @@ import numpy as np
 
 
 def predict_image(img_path, model_name):
-    models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/models'
+    # models_dir = 'C:/Users/perro/PycharmProjects/cv_proj/models'
+    model_dir = 'models'
     model_path = os.path.join(models_dir, model_name)
     model = keras.models.load_model(model_path)
 
