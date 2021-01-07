@@ -20,7 +20,7 @@ def predict_image(img_path, model_name):
 
     pred = model.predict(x)
     pred_class = pred.argmax(axis=-1)
-    labels = ["Kanye", "Not Santi", "Santi"]
+    labels = ["Kanye", "Neither", "Santi"]
     predicted_label = labels[int(pred_class)]
 
     print(pred, pred_class)
