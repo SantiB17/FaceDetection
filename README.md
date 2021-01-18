@@ -1,4 +1,4 @@
-Basic facial detection API. The API classifies the faces of myself, my friend Boris, and Kanye West.
+Basic facial detection API. The API classifies the faces of myself (category 1), Kanye West (category 2), and can tell when a face presented fits neither of the categories.
 
 ## Motivation
  Prior to this project, I created some basic Data Science-related projects from ideas I found on Kaggle, Medium, YouTube, and other sites. Because these ideas weren't my own, I   didn't gain any sense of fulfillment from working on them. None of these projects were productionalized, which is something I had been interested in doing.  While not original, I thought of making a basic facial detection API where I collected my own data and got my first taste of deep learning. 
